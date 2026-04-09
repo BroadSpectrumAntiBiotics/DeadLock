@@ -1,0 +1,3 @@
+
+def shopping(budget):
+    pass
