@@ -27,8 +27,10 @@ class Parameter:
 
         self.corruptname = list(self.name)
         self.corruptname[random.randint(0, len(self.name)-1)] = corruptedLetter
+
+        self.name = ("".join(self.corruptname))
         
-        return ("".join(self.corruptname))
+        return self.name
 
     def corruptedType(self):
         types = []
@@ -68,9 +70,19 @@ class Parameter:
 
     
     def corruptChoice(self):
-        corruption = ["corruptedName", "corruptedType", "corruptedCreation", "corruptedModification"]
+        corruption = ["name", "type", "creation", "modification"]
         corruptionChoice = random.choice(corruption)
-        return corruptionChoice
+        if corruptionChoice == "name":
+            return self.corruptedName()
+        if corruptionChoice == "type":
+            return self.corruptedType()
+        if corruptionChoice == "creation":
+            return self.corruptedCreation()
+        if corruptionChoice == "modification":
+            return self.corruptedModification()
+
+
+    
 
         
 

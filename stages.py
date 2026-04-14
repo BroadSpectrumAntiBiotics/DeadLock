@@ -1,14 +1,14 @@
-import random
 from fileNames import file_names
 import virusCreator
 from usefulFeatures import type_text, clear_screen
 from fileParameters import Parameter
+import pyautogui, os, time, random
 
 class Stages:
     def __init__(self):
         self.stage = []
-        self.numberofcorrupt = random.randint(1, 2 * virusCreator.virus.difficulty)
-        self.numberofvalid = random.randint(1, 2 * virusCreator.virus.difficulty)
+        self.numberofcorrupt = random.randint(1, virusCreator.virus.difficulty)
+        self.numberofvalid = random.randint(1, virusCreator.virus.difficulty)
         self.corruptFiles = []
         self.validFiles = []
 
@@ -29,104 +29,46 @@ class Stages:
         return self.stage
 
 def stagedGame(player):
-    corrupt_files = Stages().corruptfilesStager()
-    valid_files = Stages().validfilesStager()
-    allFiles = Stages().stager(corrupt_files, valid_files)
+    current_stage = Stages()
+    corrupt_files = current_stage.corruptfilesStager()
+    valid_files = current_stage.validfilesStager()
+    allFiles = current_stage.stager(corrupt_files, valid_files)
     files = allFiles.copy()
     counter = 0
+    clear_screen()
+    type_text(f"{f"{current_stage.numberofcorrupt} number of files are corrupt among the next {len(current_stage.stage)} files.":^120}", 0.01)
+    input(f"{f"Press enter to continue, {os.getlogin()}.":^120}")
+    
     for file in files:
-        
+        clear_screen()
         filePars = Parameter(file[:(file.find("."))], file[(file.find(".")):])
+        filename = filePars.name
+        filetype = filePars.type
+        filecreation = filePars.creation
+        filemodification = filePars.modification
         if file in corrupt_files:
-            choice = filePars.corruptChoice()
-            if choice == "corruptedName":
+            filePars.corruptChoice()
 
-                detection = input(f"""
-{"For assigning a file as valid, type 'valid'. For a corrupted file, type 'corrupted'.":^100}
-{f"{len(files)-counter} files left.":^100}
+        detection = input(f"""
+            {"For assigning a file as valid, type 'valid'. For a corrupted file, type 'corrupted'.":^100}
+            {f"{len(files)-counter} files left.":^100}
 
-EXPECTED FILE PROPERTIES:                           |DOWNLOADED FILE PROPERTIES:                    
-====================================================|===============================================
-File Name: {filePars.name:<41}|File Name: {filePars.corruptedName():<58}                            
-File Type: {filePars.type:<41}|File Type: {filePars.type:<58}                                       
-Creation Date: {filePars.creation:<37}|Creation Date: {filePars.creation:<46}                       
-Last Modified: {filePars.modification:<37}|Last Modified: {filePars.modification:<42}                                   
+            EXPECTED FILE PROPERTIES:                           |DOWNLOADED FILE PROPERTIES:
+            =================================                   |=================================
+            File Name: {filename:<41}|File Name: {filePars.name:<30}
+            File Type: {filetype:<41}|File Type: {filePars.type:<30}
+            Creation Date: {filecreation:<37}|Creation Date: {filePars.creation:<20}
+            Last Modified: {filemodification:<37}|Last Modified: {filePars.modification:<20}
 >>>""")
-            if choice == "corruptedType":
-
-                detection = input(f"""
-{"For assigning a file as valid, type 'valid'. For a corrupted file, type 'corrupted'.":^100}
-{f"{len(files)-counter} files left.":^100}
-
-EXPECTED FILE PROPERTIES:                           |DOWNLOADED FILE PROPERTIES:                    
-====================================================|===============================================
-File Name: {filePars.name:<41}|File Name: {filePars.name:<58}                                       
-File Type: {filePars.type:<41}|File Type: {filePars.corruptedType():<58}                            
-Creation Date: {filePars.creation:<37}|Creation Date: {filePars.creation:<46}                       
-Last Modified: {filePars.modification:<37}|Last Modified: {filePars.modification:<42}               
->>>""")
-            if choice == "corruptedCreation":
-
-                detection = input(f"""
-{"For assigning a file as valid, type 'valid'. For a corrupted file, type 'corrupted'.":^100}
-{f"{len(files)-counter} files left.":^100}
-
-EXPECTED FILE PROPERTIES:                           |DOWNLOADED FILE PROPERTIES:
-====================================================|===============================================
-File Name: {filePars.name:<41}|File Name: {filePars.name:<34}
-File Type: {filePars.type:<41}|File Type: {filePars.type:<34}
-Creation Date: {filePars.creation:<37}|Creation Date: {filePars.corruptedCreation():<30}
-Last Modified: {filePars.modification:<37}|Last Modified: {filePars.modification:<30}
->>>""")
-
-            if choice == "corruptedModification":
-
-                detection = input(f"""
-{"For assigning a file as valid, type 'valid'. For a corrupted file, type 'corrupted'.":^100}
-{f"{len(files)-counter} files left.":^100}
-
-EXPECTED FILE PROPERTIES:                           |DOWNLOADED FILE PROPERTIES:
-====================================================|===============================================
-File Name: {filePars.name:<41}|File Name: {filePars.name:<34}
-File Type: {filePars.type:<41}|File Type: {filePars.type:<34}
-Creation Date: {filePars.creation:<37}|Creation Date: {filePars.creation:<30}
-Last Modified: {filePars.modification:<37}|Last Modified: {filePars.corruptedModification():<30}
->>>""")
-        
-        
-        
-        
-        
-        
-        
-        
-        if file in valid_files:
-            detection = input(f"""
-{"For assigning a file as valid, type 'valid'. For a corrupted file, type 'corrupted'.":^100}
-{f"{len(files)-counter} files left.":^100}
-
-EXPECTED FILE PROPERTIES:                           |DOWNLOADED FILE PROPERTIES:
-====================================================|===============================================
-File Name: {filePars.name:<41}|File Name: {filePars.name:<34}
-File Type: {filePars.type:<41}|File Type: {filePars.type:<34}
-Creation Date: {filePars.creation:<37}|Creation Date: {filePars.creation:<30}
-Last Modified: {filePars.modification:<37}|Last Modified: {filePars.modification:<30}
->>>""")
-        if (detection == "valid") and (file in valid_files):
-            type_text("File marked as valid.")
+        if ((detection == "valid") and (file in valid_files)) or ((detection == "corrupted") and (file in corrupt_files)):
             player.budget_control(int(virusCreator.virus.difficulty * 10))
-        elif (detection == "corrupted") and (file in corrupt_files):
-            type_text("File marked as corrupted.")
-            player.budget_control((int(virusCreator.virus.difficulty * 10)))
         else:
-            #add marking valid a corrupt causing virus and falseInfo
-            #marking corrupt a valid causing no progress
-            #for example, if file was .bat and user let virus in, random script(item) will be demolished.
-            #or if it was a video file, system integrity will fall (or it'll fall everytime a virus gets in.)
-            type_text(f"File marked as {detection}.")
             player.budget_control(-(int(virusCreator.virus.difficulty * 5)))
+        type_text(f"\nFile marked as {detection}.")
         counter += 1
-    virusCreator.virus.difficulty += 1
+    if virusCreator.virus.difficulty < 5:
+        virusCreator.virus.difficulty += 1
+
         
 
 
