@@ -1,8 +1,9 @@
 from fileNames import file_names
+import scripts
 import virusCreator
 from usefulFeatures import type_text, clear_screen
 from fileParameters import Parameter
-import pyautogui, os, time, random
+import time, random
 
 class Stages:
     def __init__(self):
@@ -36,8 +37,8 @@ def stagedGame(player):
     files = allFiles.copy()
     counter = 0
     clear_screen()
-    type_text(f"{f"{current_stage.numberofcorrupt} number of files are corrupt among the next {len(current_stage.stage)} files.":^120}", 0.01)
-    input(f"{f"Press enter to continue, {os.getlogin()}.":^120}")
+    type_text(f"{f"{" "*8}{current_stage.numberofcorrupt} number of files are corrupt among the next {len(current_stage.stage)} files.":^100}", 0.01)
+    input(f"{f"{" "*8}Press enter to continue, {player.name}.":^100}") 
     
     for file in files:
         clear_screen()
@@ -50,8 +51,9 @@ def stagedGame(player):
             filePars.corruptChoice()
 
         detection = input(f"""
-            {"For assigning a file as valid, type 'valid'. For a corrupted file, type 'corrupted'.":^100}
-            {f"{len(files)-counter} files left.":^100}
+        {"For assigning a file as valid, type 'valid'. For a corrupted file, type 'corrupted'.":^100}
+        {f"To use a script you downloaded, type its full name. You currently have {player.scripts} installed.":^100}
+        {f"{len(files)-counter} files left.":^100}
 
             EXPECTED FILE PROPERTIES:                           |DOWNLOADED FILE PROPERTIES:
             =================================                   |=================================
@@ -61,10 +63,18 @@ def stagedGame(player):
             Last Modified: {filemodification:<37}|Last Modified: {filePars.modification:<20}
 >>>""")
         if ((detection == "valid") and (file in valid_files)) or ((detection == "corrupted") and (file in corrupt_files)):
-            player.budget_control(int(virusCreator.virus.difficulty * 10))
-        else:
-            player.budget_control(-(int(virusCreator.virus.difficulty * 5)))
-        type_text(f"\nFile marked as {detection}.")
+            player.budget_control(int(virusCreator.virus.difficulty * random.randint(5, 10)))
+        else: #Add budget control for specific types of viruses
+            if detection in player.scripts:
+                if detection == "autoCheck.exe":
+                    scripts.autoCheck(file, valid_files, corrupt_files)
+                    player.scripts.pop(player.scripts.index(detection))
+                    time.sleep(2)
+            else:
+                player.budget_control(-(int(virusCreator.virus.difficulty * random.randint(1, 5))))
+                player.hp_control(-(int(virusCreator.virus.difficulty * random.randint(1, 5))))
+        if detection not in scripts.script_names:
+            type_text(f"\nFile marked as {detection}.")
         counter += 1
     if virusCreator.virus.difficulty < 5:
         virusCreator.virus.difficulty += 1

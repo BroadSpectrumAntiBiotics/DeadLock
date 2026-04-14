@@ -10,11 +10,11 @@ def UI(name, hp, scripts, budget):
     print("=" * 30)
 
 
-def doing(do, player):
+def doing(do, player, budget):
     if do == "continue":
         return stagedGame(player)
     if do == "shop":
-        return shopping()
+        return shopping(budget, player)
     if do == "info":
         return info()
     else:

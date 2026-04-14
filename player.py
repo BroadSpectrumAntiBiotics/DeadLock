@@ -10,5 +10,7 @@ class Player:
     def budget_control(self, addition):
         self.budget += addition
 
-
+    def hp_control(self, addition):
+        self.hp += addition
+        
 
