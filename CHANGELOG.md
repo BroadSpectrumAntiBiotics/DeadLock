@@ -15,4 +15,4 @@ Plus, simplified the code and made it much professional.
 Fixed inputs, uncommented the intro function.
 
 16.04.2026 ==
-Added average antivirus script and an ending (basic).
+Added average antivirus script and an ending (basic). And added colors.

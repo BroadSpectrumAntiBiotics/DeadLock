@@ -11,6 +11,7 @@ from end import ending
 def gameF():
     usefulFeatures.clear_screen()
     name = input("Enter your name: ")
+    usefulFeatures.clear_screen()
     player = Player(name)
     intro(player.name)
     
@@ -23,10 +24,11 @@ def gameF():
         UI(player.name, player.hp, player.scripts, player.budget, player.update)
         do = input("""
 Type:
-                                "continue" for resuming update,
-                                "shop" for viewing shop,
-                                "info" for general info,
-                                "exit" for... obviously.
+                   
+"continue" for resuming update,
+"shop" for viewing shop,
+"info" for general info,
+"exit" for... obviously.
                    
 >>>""")
         if do == "exit":

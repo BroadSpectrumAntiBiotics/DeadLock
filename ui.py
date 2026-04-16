@@ -9,7 +9,7 @@ def UI(name, hp, scripts, budget, update):
     print(f"User: {name}")
     print(f"System Integrity: {hp}\nBudget: {budget}")
     print(f"Scripts: {scripts}")
-    print(f"Update level: {update}")
+    print("Update level: " + (update//10)*"⬤" + (10-(update//10))*"◯")
     print("=" * 30)
 
 

@@ -15,7 +15,8 @@ def shopping(budget, player):
 
             break
         except:
-            type_text("Invalid script name. Please try again.")
+            type_text("\033[31mInvalid script name. Please try again.\033[0m")
+            clear_screen()
     
 
     

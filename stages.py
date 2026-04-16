@@ -53,17 +53,21 @@ def stagedGame(player):
         while True:
             try:
                 clear_screen()
+                if virusCreator.virus.difficulty == 1:
+                    print(f"""
+             {"For assigning a file as valid, type 'valid'. For a corrupted file, type 'corrupted'.":^100}
+             {f"To use a script you downloaded, type its full name. You currently have {player.scripts} installed.":^100}""")
                 detection = input(f"""
-                {"For assigning a file as valid, type 'valid'. For a corrupted file, type 'corrupted'.":^100}
-                {f"To use a script you downloaded, type its full name. You currently have {player.scripts} installed.":^100}
-                {f"{len(files)-counter} files left.":^100}
-
+\033[34m
                     EXPECTED FILE PROPERTIES:                           |DOWNLOADED FILE PROPERTIES:
                     =================================                   |=================================
                     File Name: {filename:<41}|File Name: {filePars.name:<30}
                     File Type: {filetype:<41}|File Type: {filePars.type:<30}
                     Creation Date: {filecreation:<37}|Creation Date: {filePars.creation:<20}
-                    Last Modified: {filemodification:<37}|Last Modified: {filePars.modification:<20}
+                    Last Modified: {filemodification:<37}|Last Modified: {filePars.modification:<20} \033[0m
+
+            {f"{len(files)-counter} files left.":^100}
+
 >>>""")
                 if ((detection == "valid") and (file in valid_files)) or ((detection == "corrupted") and (file in corrupt_files)):
                     player.budget_control(int(virusCreator.virus.difficulty * random.randint(5, 10)))
@@ -95,7 +99,7 @@ def stagedGame(player):
                     counter += 1
                 break
             except:
-                type_text("Wrong command. Please try again.")
+                type_text("\033[31mWrong command. Please try again.\033[0m")
                 time.sleep(1)
         
     if virusCreator.virus.difficulty < 5:
