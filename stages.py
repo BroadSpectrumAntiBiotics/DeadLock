@@ -1,4 +1,5 @@
 from fileNames import file_names
+from perks import hinter
 import scripts
 import virusCreator
 from usefulFeatures import type_text, clear_screen
@@ -35,11 +36,16 @@ def stagedGame(player):
     valid_files = current_stage.validfilesStager()
     allFiles = current_stage.stager(corrupt_files, valid_files)
     files = allFiles.copy()
-    counter = 0
-    clear_screen()
-    type_text(f"{f"{" "*8}{current_stage.numberofcorrupt} number of files are corrupt among the next {len(current_stage.stage)} files.":^120}", 0.01)
-    input(f"{f"{" "*8}Press enter to continue, {player.name}.":^120}") 
+    counter = 0 
     
+    if virusCreator.virus.difficulty > 2:
+        if virusCreator.virus.difficulty == 3:
+            clear_screen()
+            type_text(f"{"\033[33mNew perk unlocked! Now you know how many files are corrupted in each stage before you begin.\033[0m":^135}", 0.02)
+            input(f"{"Press enter to continue.":^125}")
+            clear_screen()
+        hinter(player, current_stage)
+
     for file in files:
         clear_screen()
         filePars = Parameter(file[:(file.find("."))], file[(file.find(".")):])
@@ -56,9 +62,9 @@ def stagedGame(player):
                 if virusCreator.virus.difficulty == 1:
                     print(f"""
              {"For assigning a file as valid, type 'valid'. For a corrupted file, type 'corrupted'.":^100}
-             {f"To use a script you downloaded, type its full name. You currently have {player.scripts} installed.":^100}""")
+             {f"To use a script you downloaded, type its full name. To see your scripts, type 'scripts'.":^100}""")
                 detection = input(f"""
-\033[34m
+            \033[34m
                     EXPECTED FILE PROPERTIES:                           |DOWNLOADED FILE PROPERTIES:
                     =================================                   |=================================
                     File Name: {filename:<41}|File Name: {filePars.name:<30}
@@ -72,7 +78,7 @@ def stagedGame(player):
                 if ((detection == "valid") and (file in valid_files)) or ((detection == "corrupted") and (file in corrupt_files)):
                     player.budget_control(int(virusCreator.virus.difficulty * random.randint(5, 10)))
                     player.update += random.randint(5,10)
-                else: #Add budget control for specific types of viruses
+                else:
                     if detection in player.scripts:
                         if detection == "autoCheck.exe":
                             scripts.autoCheck(file, valid_files, corrupt_files)
@@ -92,6 +98,13 @@ def stagedGame(player):
                     elif (detection == "valid") or (detection == "corrupted"):
                         player.budget_control(-(int(virusCreator.virus.difficulty * random.randint(1, 5))))
                         player.hp_control(-(int(virusCreator.virus.difficulty * random.randint(1, 5))))
+                    elif detection == "scripts":
+                        type_text(f"""\nYou currently have:
+            {f"{player.scripts.count("autoCheck.exe")} 'autoCheck.exe'":^100}
+            {f"{player.scripts.count("average_av.exe")} 'average_av.exe'":^100}
+             {f"{player.scripts.count("advanced_av.exe")} 'advanced_av.exe'":^100}""", 0.01)
+                        input("\nPress enter to continue.")
+                        continue
                     else:
                         raise KeyError()
                 if detection not in scripts.script_names:
@@ -102,7 +115,7 @@ def stagedGame(player):
                 type_text("\033[31mWrong command. Please try again.\033[0m")
                 time.sleep(1)
         
-    if virusCreator.virus.difficulty < 5:
+    if virusCreator.virus.difficulty < 10:
         virusCreator.virus.difficulty += 1
 
         
