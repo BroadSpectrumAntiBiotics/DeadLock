@@ -20,7 +20,7 @@ def gameF():
         data["name"] = name
         usefulFeatures.clear_screen()
         intro(name)
-    player = Player(data["name"], data["hp"], data["scripts"], data["budget"])
+    player = Player(data["name"], data["hp"], data["scripts"], data["budget"], data["update"])
     
     while True:
         usefulFeatures.clear_screen()
@@ -31,6 +31,7 @@ def gameF():
         data["budget"] = player.budget
         data["scripts"] = player.scripts
         data["hp"] = player.hp
+        data["update"] = player.update
         do = input("""
 Type:
                    
