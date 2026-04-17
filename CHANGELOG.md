@@ -16,3 +16,6 @@ Fixed inputs, uncommented the intro function.
 
 16.04.2026 ==
 Added average antivirus script and an ending (basic). And added colors.
+
+17.04.2026 ==
+Added a saving system.
