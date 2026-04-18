@@ -4,6 +4,14 @@ import random
 script_names = ["autoCheck.exe", "average_av.exe", "advanced_av.exe"]
 script_prices = [20, 30, 50]
 
+script_list = f"""
+{"Script name":^20}|{"Price":^10}
+{"="*30}
+{script_names[0]:^20}|{script_prices[0]:^8}
+{script_names[1]:^20}|{script_prices[1]:^8}
+{script_names[2]:^20}|{script_prices[2]:^8}
+"""
+
  
 def autoCheck(file, valid_files, corrupt_files):
     if file in valid_files:

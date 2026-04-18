@@ -109,6 +109,7 @@ def stagedGame(player):
                         raise KeyError()
                 if detection not in scripts.script_names:
                     type_text(f"\nFile marked as {detection}.")
+                    time.sleep(0.7)
                     counter += 1
                 break
             except:
