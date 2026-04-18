@@ -5,7 +5,7 @@ def intro(player):
     time.sleep(0.6)
     type_text(f"Welcome, {player}.")
     time.sleep(0.6)
-    type_text("In Deadlock, you'll face various situations where you'll need to think.")
+    type_text("In Root Sentry, you'll face various situations where you'll need to think.")
     time.sleep(0.6)
     type_text("You are trying to update files on a system you own.")
     time.sleep(0.6)
