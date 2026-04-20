@@ -19,3 +19,5 @@ Added average antivirus script and an ending (basic). And added colors.
 
 17.04.2026 ==
 Added a saving system. Added perks.
+
+19.04.2026 == Added "hash" property for files after a certain stage. Added a new perk.
