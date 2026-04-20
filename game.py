@@ -5,22 +5,26 @@ import usefulFeatures
 from introduction import intro
 from ui import UI, doing
 from end import ending, bad_ending
-from dataMan import data
+import dataMan
 import json
 
 
 
 
 def gameF():
-    with open("data.json", "r") as file:
-        data = json.load(file)
+    try:
+        with open("data.json", "r") as file:
+            dataMan.data = json.load(file)
+    except:
+        with open("data.json", "w") as file:
+            json.dump(dataMan.data, file)
     usefulFeatures.clear_screen()
-    if data["name"] == "":
+    if dataMan.data["name"] == "":
         name = input("Enter your name: ")
-        data["name"] = name
+        dataMan.data["name"] = name
         usefulFeatures.clear_screen()
         intro(name)
-    player = Player(data["name"], data["hp"], data["scripts"], data["budget"], data["update"])
+    player = Player(dataMan.data["name"], dataMan.data["hp"], dataMan.data["scripts"], dataMan.data["budget"], dataMan.data["update"])
     
     while True:
         usefulFeatures.clear_screen()
@@ -31,10 +35,10 @@ def gameF():
             bad_ending()
             break
         UI(player.name, player.hp, player.scripts, player.budget, player.update)
-        data["budget"] = player.budget
-        data["scripts"] = player.scripts
-        data["hp"] = player.hp
-        data["update"] = player.update
+        dataMan.data["budget"] = player.budget
+        dataMan.data["scripts"] = player.scripts
+        dataMan.data["hp"] = player.hp
+        dataMan.data["update"] = player.update
         do = input("""
 Type:
                    
@@ -46,7 +50,7 @@ Type:
 >>>""")
         if do == "exit":
             with open("data.json", "w") as file:
-                json.dump(data, file)
+                json.dump(dataMan.data, file)
             break
         doing(do, player, player.budget)
         
