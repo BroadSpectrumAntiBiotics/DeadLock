@@ -7,7 +7,17 @@ from ui import UI, doing
 from end import ending, bad_ending
 import dataMan
 import json
+from assetControl import path_audio
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
+import pygame
 
+introSong = path_audio("music", "introExpanded.mp3")
+good_ending_bgm = path_audio("music", "end1Good.wav")
+bad_ending_bgm = path_audio("music", "end2Bad.wav")
+
+pygame.mixer.init()
+pygame.mixer_music.set_volume(0.5)
 
 
 
@@ -23,15 +33,23 @@ def gameF():
         name = input("Enter your name: ")
         dataMan.data["name"] = name
         usefulFeatures.clear_screen()
+        pygame.mixer_music.load(introSong)
+        pygame.mixer_music.play(fade_ms=5000, loops=-1)
         intro(name)
+        pygame.mixer_music.stop()
+        pygame.mixer_music.unload()
     player = Player(dataMan.data["name"], dataMan.data["hp"], dataMan.data["scripts"], dataMan.data["budget"], dataMan.data["update"])
     
     while True:
         usefulFeatures.clear_screen()
         if player.update > 100:
+            pygame.mixer_music.load(good_ending_bgm)
+            pygame.mixer_music.play(fade_ms=5000, loops=-1)
             ending(player)
             break
         if player.hp <= 0:
+            pygame.mixer_music.load(bad_ending_bgm)
+            pygame.mixer_music.play(fade_ms=5000, loops=-1)
             bad_ending()
             break
         UI(player.name, player.hp, player.scripts, player.budget, player.update)

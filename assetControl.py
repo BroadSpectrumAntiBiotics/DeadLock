@@ -13,3 +13,7 @@ def load_ascii_art(subfolder: str, filename: str) -> str:
             return f.read()
     except FileNotFoundError:
         return "[ASCII art missing]"
+
+def path_audio(subfolder: str, filename: str) -> str:
+    path = get_asset_path(f"audio/{subfolder}", filename)
+    return path
