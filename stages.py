@@ -104,6 +104,7 @@ def stagedGame(player):
                     if detection in player.scripts:
                         if detection == "autoCheck.exe":
                             scripts.autoCheck(file, valid_files, corrupt_files)
+                            player.update += random.randint(3, 5)
                         if detection == "average_av.exe":
                             if player.hp == 100:
                                 type_text("You already have 100 system integrity!")
