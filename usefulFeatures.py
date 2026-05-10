@@ -10,5 +10,10 @@ def type_text(text, speed=0.04):
         time.sleep(speed)
     print()
 
+def timer(point1):
+    point2 = time.time()
+    timing = point2 - point1
+    return timing
+
 
 

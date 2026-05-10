@@ -1,16 +1,20 @@
 from player import Player
+from assetControl import load_ascii_art
 import virusCreator
 from stages import Stages
 import usefulFeatures
-from introduction import intro
+from introduction import intro, booting
 from ui import UI, doing
 from end import ending, bad_ending
 import dataMan
 import json
 from assetControl import path_audio
+import time
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
+
+point1 = time.time()
 
 introSong = path_audio("music", "introExpanded.mp3")
 good_ending_bgm = path_audio("music", "end1Good.wav")
@@ -21,14 +25,21 @@ pygame.mixer_music.set_volume(0.5)
 
 
 
+boottext = load_ascii_art("misc", "boot.txt")
+logo = load_ascii_art("misc", "logo.txt")
+boottext = boottext.replace("0420", str(usefulFeatures.timer(point1))[4:8])
+boottext = boottext.replace("0940", str(usefulFeatures.timer(point1))[4:8])
+boottext = boottext.replace("1260", str(usefulFeatures.timer(point1))[4:8])
+
 def gameF():
+    usefulFeatures.clear_screen()
+    booting(boottext, logo)
     try:
         with open("data.json", "r") as file:
             dataMan.data = json.load(file)
     except:
         with open("data.json", "w") as file:
             json.dump(dataMan.data, file)
-    usefulFeatures.clear_screen()
     if dataMan.data["name"] == "":
         name = input("Enter your name: ")
         dataMan.data["name"] = name

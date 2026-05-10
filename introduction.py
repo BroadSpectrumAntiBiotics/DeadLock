@@ -1,12 +1,13 @@
 from usefulFeatures import type_text, clear_screen
 import time
 
+
 def intro(player):
     time.sleep(0.6)
     type_text(f"{f"Welcome, {player}."}")
     time.sleep(1)
     clear_screen()
-    type_text("In Root Sentry, you'll face various situations where you'll need to think.")
+    type_text("In LITHANI, you'll face various situations where you'll need to think.")
     time.sleep(1)
     clear_screen()
     type_text("You are trying to update files on a system you own. By comparing file properties to see if they match.")
@@ -26,3 +27,9 @@ def intro(player):
     input("Press enter to continue.")
     clear_screen()
     
+def booting(boot, logo):
+    type_text(boot, 0.01)
+    time.sleep(1)
+    print(logo)
+    time.sleep(2)
+    clear_screen()

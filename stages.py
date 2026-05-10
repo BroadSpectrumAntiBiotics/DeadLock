@@ -2,15 +2,17 @@ from fileNames import file_names
 from perks import currentfile_perk, hinter
 import scripts
 import virusCreator
-from usefulFeatures import type_text, clear_screen
+from usefulFeatures import type_text, clear_screen, timer
 from fileParameters import Parameter
 import time, random
+from perks import unlocked_perks, perk_names
+
 
 class Stages:
     def __init__(self):
         self.stage = []
-        self.numberofcorrupt = random.randint(1, virusCreator.virus.difficulty)
-        self.numberofvalid = random.randint(1, virusCreator.virus.difficulty)
+        self.numberofcorrupt = random.randint(0, int(virusCreator.virus.difficulty/2))
+        self.numberofvalid = virusCreator.virus.difficulty - self.numberofcorrupt
         self.corruptFiles = []
         self.validFiles = []
 
@@ -36,7 +38,11 @@ def hash_properties(filehash, difficulty, filePars):
     else:
         return ""
 
-def stagedGame(player):
+def stagedGame(player, timePassed):
+    clear_screen()
+    timelimit = virusCreator.virus.difficulty * 10
+    type_text(f"\nYou will have {timelimit} seconds to finish this stage of update.")
+    time.sleep(2)
     current_stage = Stages()
     corrupt_files = current_stage.corruptfilesStager()
     valid_files = current_stage.validfilesStager()
@@ -44,18 +50,9 @@ def stagedGame(player):
     files = allFiles.copy()
     counter = 0 
     
-    if virusCreator.virus.difficulty == 6:
-        clear_screen()
-        type_text(f"{"\033[33mNew perk unlocked! With a small chance, you will be shown whether a file is corrupted or not.\033[0m":^135}", 0.02)
-        input(f"{"Press enter to continue.":^125}")
-        clear_screen()
+    
 
     if virusCreator.virus.difficulty > 2:
-        if virusCreator.virus.difficulty == 3:
-            clear_screen()
-            type_text(f"{"\033[33mNew perk unlocked! Now you know how many files are corrupted in each stage before you begin.\033[0m":^135}", 0.02)
-            input(f"{"Press enter to continue.":^125}")
-            clear_screen()
         hinter(player, current_stage)
     
     
@@ -73,7 +70,7 @@ def stagedGame(player):
             filePars.corruptChoice(virusCreator.virus.difficulty)
             if virusCreator.virus.difficulty > 5:
                 chance = random.randint(1, 100)
-                if chance > 80: #For every file, there's a 10 percent chance that you'll get notified about its corruption.
+                if chance > 80: #For every file, there's a 20 percent chance that you'll get notified about its corruption.
                     currentfile_perk()
 
 
@@ -81,6 +78,7 @@ def stagedGame(player):
         while True:
             try:
                 clear_screen()
+                point1 = time.time()
                 if virusCreator.virus.difficulty == 1:
                     print(f"""
              {"For assigning a file as valid, type 'valid'. For a corrupted file, type 'corrupted'.":^100}
@@ -97,6 +95,7 @@ def stagedGame(player):
             {f"{len(files)-counter} files left.":^100}
 
 >>>""")
+                timePassed += timer(point1)
                 if ((detection == "valid") and (file in valid_files)) or ((detection == "corrupted") and (file in corrupt_files)):
                     player.budget_control(int(virusCreator.virus.difficulty * random.randint(1, 5)))
                     player.update += random.randint(3, 5)
@@ -105,16 +104,14 @@ def stagedGame(player):
                         if detection == "autoCheck.exe":
                             scripts.autoCheck(file, valid_files, corrupt_files)
                             player.update += random.randint(3, 5)
-                        if detection == "average_av.exe":
+                        if detection == "av.exe":
                             if player.hp == 100:
                                 type_text("You already have 100 system integrity!")
                                 time.sleep(1.5)
                                 continue
-                            scripts.average_av(player)
+                            scripts.av(player)
                             player.scripts.pop(player.scripts.index(detection))
                             continue
-                        if detection == "advanced_av.exe":
-                            pass
                         player.scripts.pop(player.scripts.index(detection))
                         counter += 1
                         time.sleep(1.5)
@@ -124,8 +121,7 @@ def stagedGame(player):
                     elif detection == "scripts":
                         type_text(f"""\nYou currently have:
             {f"{player.scripts.count("autoCheck.exe")} 'autoCheck.exe'":^100}
-            {f"{player.scripts.count("average_av.exe")} 'average_av.exe'":^100}
-             {f"{player.scripts.count("advanced_av.exe")} 'advanced_av.exe'":^100}""", 0.01)
+            {f"{player.scripts.count("av.exe")} 'av.exe'":^100}""", 0.01)
                         input("\nPress enter to continue.")
                         continue
                     else:
@@ -138,9 +134,32 @@ def stagedGame(player):
             except:
                 type_text("\033[31mWrong command. Please try again.\033[0m")
                 time.sleep(1)
-        
+        if timePassed > timelimit:
+            type_text(f"You are too slow. You spent {int(timePassed)} seconds for this stage when you should've spent {timelimit} at max.")
+            type_text("Update level will go down to a certain level because of this.")
+            player.update -= (int(timePassed)-int(timelimit))
+            if player.update < 0:
+                player.update = 0
+            time.sleep(2)
+
+    if virusCreator.virus.difficulty == 3:
+        clear_screen()
+        unlocked_perks.append(perk_names[0])
+        type_text(f"{"\033[33mNew perk unlocked! Check the shop!\033[0m":^135}", 0.02)
+        input(f"{"Press enter to continue.":^125}")
+        clear_screen()
+
+    if virusCreator.virus.difficulty == 6:
+        clear_screen()
+        unlocked_perks.append(perk_names[1])
+        type_text(f"{"\033[33mNew perk unlocked! Check the shop!\033[0m":^135}", 0.02)
+        input(f"{"Press enter to continue.":^125}")
+        clear_screen()
+
     if virusCreator.virus.difficulty < 10:
         virusCreator.virus.difficulty += 1
+
+        
 
         
 

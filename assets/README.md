@@ -1,4 +1,4 @@
-# Assets for Root-Sentry
+# Assets for LITHANI
 
 This folder holds all audio and visual assets for the game.
 
@@ -30,4 +30,4 @@ This folder holds all audio and visual assets for the game.
 
 All contributors will receive full credit in the README and in-game credits.
 
-Thanks for helping make Root-Sentry feel more alive!
+Thanks for helping make LITHANI feel more alive!

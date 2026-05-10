@@ -6,7 +6,7 @@
 |  ---------------------              -----------------------     |
 |  > BUDGET     : $8450               [1] PingOfDeath.sh   x1     |
 |  > UPDATE LVL : v4.2.0              [2] Trojan_Horse.exe x2     |
-|                                     [3] Port_Scanner.py  x3     |
+|                                     [3] Port_Scanner.py  x0     |
 |                                                                 |
 +=================================================================+
 | SYSTEM MSG: Network secure. Awaiting input...                   |

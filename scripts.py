@@ -1,15 +1,19 @@
 from usefulFeatures import clear_screen, type_text
 import random
 
-script_names = ["autoCheck.exe", "average_av.exe", "advanced_av.exe"]
-script_prices = [10, 20, 50]
+script_names = ["autoCheck.exe", "av.exe"]
+script_prices = [10, 20]
+
+autoCheckINFO = "Automatically checks the file."
+avINFO = "Restores system integrity."
+
+script_info_list = [autoCheckINFO, avINFO]
 
 script_list = f"""
-{"Script name":^20}|{"Price":^10}
-{"="*30}
-{script_names[0]:^20}|{script_prices[0]:^8}
-{script_names[1]:^20}|{script_prices[1]:^8}
-{script_names[2]:^20}|{script_prices[2]:^8}
+{"Script name":^20}|{"Price":^8}|{"About this script":^20}
+{"="*60}
+{script_names[0]:^20}|{script_prices[0]:^8}| {script_info_list[0]:^}
+{script_names[1]:^20}|{script_prices[1]:^8}| {script_info_list[1]:^}
 """
 
  
@@ -19,7 +23,7 @@ def autoCheck(file, valid_files, corrupt_files):
     if file in corrupt_files:
         return type_text("\033[31mFile is corrupt.\033[0m")
     
-def average_av(player):
+def av(player):
     if ((100 - player.hp) <= 15):
         x = 100 - player.hp
         player.hp = 100
@@ -29,5 +33,3 @@ def average_av(player):
     type_text(f"\033[32mRestored {x} system integrity.\033[0m")
     return player.hp
 
-def advanced_av():
-    pass

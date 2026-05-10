@@ -1,4 +1,4 @@
-# Root Sentry
+# LITHANI
 
 **A text-based strategy game where you're fighting to finish a system update from the inside of a computer.**
 
@@ -10,8 +10,8 @@ It's a mix of resource management, strategic decisions, and a bit of luck — al
 
 1. Clone the repo:
 ```
-git clone https://github.com/BroadSpectrumAntiBiotics/root-sentry.git
-cd root-sentry
+git clone https://github.com/BroadSpectrumAntiBiotics/lithani.git
+cd lithani
 ```
 2. Run the game:
 ```
