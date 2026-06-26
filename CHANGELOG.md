@@ -25,3 +25,5 @@ Added a saving system. Added perks.
 23.04.2026 == Made UI better. Planned the game structure again.
 
 25.04.2026 == Added music.
+
+26.06.2026 == Made small changes. Changed lore of the game and its planning.

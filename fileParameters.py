@@ -29,7 +29,7 @@ class Parameter:
                 break
 
         self.corruptname = list(self.name)
-        self.corruptname[random.randint(0, len(self.name)-1)] = corruptedLetter
+        self.corruptname[random.randint(0, len(self.name)-1)] = corruptedLetter # type: ignore
 
         self.name = ("".join(self.corruptname))
         

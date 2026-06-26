@@ -118,6 +118,8 @@ def stagedGame(player, timePassed):
                     elif (detection == "valid") or (detection == "corrupted"):
                         player.budget_control(-(int(virusCreator.virus.difficulty * random.randint(1, 5))))
                         player.hp_control(-(int(virusCreator.virus.difficulty * random.randint(1, 5))))
+                        if player.budget < 0:
+                            player.budget = 0
                     elif detection == "scripts":
                         type_text(f"""\nYou currently have:
             {f"{player.scripts.count("autoCheck.exe")} 'autoCheck.exe'":^100}
@@ -135,8 +137,8 @@ def stagedGame(player, timePassed):
                 type_text("\033[31mWrong command. Please try again.\033[0m")
                 time.sleep(1)
         if timePassed > timelimit:
-            type_text(f"You are too slow. You spent {int(timePassed)} seconds for this stage when you should've spent {timelimit} at max.")
-            type_text("Update level will go down to a certain level because of this.")
+            type_text(f"\nYou are too slow. You spent {int(timePassed)} seconds for this stage when you should've spent {timelimit} at max.")
+            type_text("Update level will go down a certain level because of this.")
             player.update -= (int(timePassed)-int(timelimit))
             if player.update < 0:
                 player.update = 0
