@@ -13,8 +13,9 @@ It's a mix of resource management, strategic decisions, and a bit of luck — al
 git clone https://github.com/BroadSpectrumAntiBiotics/lithani.git
 cd lithani
 ```
-2. Run the game:
+2. Install the requirements and Run the game:
 ```
+pip install -r requirements.txt
 python game.py
 ```
 -----------------------------------------------------------------------------------------
